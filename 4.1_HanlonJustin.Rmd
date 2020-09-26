@@ -1,0 +1,73 @@
+---
+title: "ASSIGNMENT 4"
+author: "Hanlon, Justin"
+date: '2010-09-24'
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+  bibliography: bibliography.bib
+---
+  
+  # Markdown Basics
+  
+  ## Favorite Foods
+  1. Thai
+  2. Cheeseburger
+  3. Garlic bread
+  ## Images
+  ![My Dog](/Users/juge/dsc520/IMG_0758.jpg)
+  ## Add a Quote
+  >To be or not to be that is the question
+  ## Add an Equation
+\begin{equation}
+  \frac{x^2}{x^3+x^5}
+\end{equation}
+
+## Add a Footnote
+
+This is a footnote
+^[Consider this a footnote.]
+## Add Citations
+
+* R for Everyone @Lander2014R
+* Discovering Statistics Using R @Field2012Discovering
+
+# Inline Code
+4 times 2 is equal to `r 4 * 2`
+## NY Times COVID-19 Data
+```{r, message=FALSE, warning=FALSE, echo = FALSE}
+covid_df <- read.csv("data/nytimes/covid-19-data/us-states.csv")
+
+## Parse the date column using `as.Date()``
+dates <- as.Date(strDates, "%m/%d/%Y")
+covid_df$date <- as.Date(as.character("1/21/2020"), format = "%m/%d/%y")
+covid_df$date <- as.Date(covid_df$date)
+
+## Create three dataframes named `california_df`, `ny_df`, and `florida_df`
+## containing the data from California, New York, and Florida
+california_df <- covid_df[ which( covid_df$state == "California"), ]
+ny_df <- covid_df[ which( covid_df$state == "New_York"), ]
+florida_df <- covid_df[ which( covid_df$state == "Florida"), ]
+tail(florida_df)
+## Plot the number of cases in Florida using `geom_line()`
+ggplot(data=florida_df, aes(x=date, y=cases, group=1)) + geom_line()
+
+## R4DS Height vs Earnings
+heights <- read.csv("data/r4ds/heights.csv")
+# Tables
+
+## Knitr Table with Kable
+library(knitr)
+name <- c("Zooey","Lucy","Luna","Gabby","Georgie","Sasha")
+breed <- c("mix","Yellow Lab", "Pit mix","Yellow lab","Pom","White lab")
+age<-c("4","7","5","9","3","8")
+dogs_df <- data.frame("name","breed","age")
+kable(characters_df, title = "Happy Hour Dogs", caption = "Happy Hour Dogs" )
+
+library(pander)
+panderOptions("table.split.table", Inf)
+pander(dogs_df, caption = "Happy Hour Dogs")
+## Pandoc Table
+
+# References

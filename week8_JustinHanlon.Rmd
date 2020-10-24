@@ -1,0 +1,38 @@
+---
+title: "Week 8"
+author: "Justin Hanlon"
+date: "10/24/2020"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, echo = TRUE}
+library(foreign)
+df <- read.arff("ThoraricSurgery.arff")
+sample <- sample.split(df$Risk1Yr, SplitRatio = 0.75)
+training = subset(df, sample == TRUE)
+testing = subset(df, sample == FALSE)
+model = glm(Risk1Yr ~ . -1 , family = binomial(logit), data = train)
+model <- step(model, trace=FALSE)
+summary(model)
+```
+---
+b. According to the summary, which variables had the greatest effect on the survival rate
+PRE8F       
+PRE8T       
+PRE9T       
+PRE14OC13  
+PRE14OC14   
+---
+```{r, message=FALSE, warning=FALSE, echo = TRUE}
+library(pander)
+test$predicted = predict(model, newdata=test, type="response")
+pander(table(test$Risk1Yr, test$predicted> 0.49))
+---
+  For false scenarios the model is decent but it is bad at predicting true cases
+---
